@@ -1,0 +1,29 @@
+INTERSHIT TEAM UNITED co.
+
+This is the plan:
+
+#1 (the only goal) break all the rules of the game jam.
+
+### Overview ###
+
+Main character : Miss Inter Pretation
+Main boss : Chris
+Levels : Inter Acts (If you don't collide with certain objects you can't get
+          to next "act" or level [double meaning on the interact])
+Tasks : Inter Missions - breaks in play where you have to complete
+        meaningless things.
+Transport: Inter nShip - where you do nothing and wastes time
+Currency: Interchange
+
+### Specifics ###
+
+Controls: Arrow keys = move: left/right, up: jump, down: crouch.
+          Spacebar = attack.
+          Q = Switch weapon.
+          W = Block (only good for certain attacks)
+          E = Interact (if possible)
+          R = Magic (changes an incoming attack into a heal, time based)
+
+Upgrades: Costs interchange to increase health, damage, reduce time on R etc.
+
+High score: using time to complete game?
