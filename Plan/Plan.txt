@@ -14,6 +14,10 @@ Tasks : Inter Missions - breaks in play where you have to complete
         meaningless things.
 Transport: Inter nShip - where you do nothing and wastes time
 Currency: Interchange
+<<<<<<< HEAD
+=======
+Level boss: Interrogate final boss at each level to reach Chris.
+>>>>>>> Bingham
 
 ### Specifics ###
 
@@ -21,7 +25,11 @@ Controls: Arrow keys = move: left/right, up: jump, down: crouch.
           Spacebar = attack.
           Q = Switch weapon.
           W = Block (only good for certain attacks)
+<<<<<<< HEAD
           E = Interact (if possible)
+=======
+          E = Interact (if possible) (?!? Interrobang)
+>>>>>>> Bingham
           R = Magic (changes an incoming attack into a heal, time based)
 
 Upgrades: Costs interchange to increase health, damage, reduce time on R etc.
