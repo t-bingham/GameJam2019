@@ -123,7 +123,7 @@ def game():
 				playerCurrent -= 1
 
 			if x < 0 or x > 770 or y < 50 or y > 570 or playerCurrent < 1:
-				return("dead")
+				return(0)
 				#death screen here
 				pygame.QUIT()
 
@@ -139,6 +139,6 @@ def game():
 			pygame.draw.rect(screen, green, (0,550,playerCurrent/playerHealth*200,50))
 			pygame.draw.rect(screen, blue, (x, y, w, h))
 
-			screen.blit(textsurface,(350,0))
+			screen.blit(bossHP,(350,0))
 
 			pygame.display.update()
