@@ -25,14 +25,13 @@ blue = (0, 0, 255)
 
 # Initialisations
 display = pygame.display.set_mode((displayWidth, displayHeight))
-pygame.display.set_caption('GAME NAME HERE!')
+pygame.display.set_caption('Missinterpretation')
 clock = pygame.time.Clock()
 pygame.font.init()
 
 
 
 # Main Stuff
-
 
 class screenItem:
     def __init__(self, name, xPos, yPos, xHitHigh, xHitLow, yHitHigh, yHitLow, imagePathClicked, imagePathNormal=None, imagePathGray=None):
@@ -98,7 +97,7 @@ def begin():
     playerTime = int(end - start)
 
     display = pygame.display.set_mode((displayWidth, displayHeight))
-    pygame.display.set_caption('GAME NAME HERE!')
+    pygame.display.set_caption('Misinterpretation')
     clock = pygame.time.Clock()
     pygame.font.init()
 
