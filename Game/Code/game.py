@@ -4,6 +4,8 @@ import sys
 import string
 import time
 
+import shop
+
 def game():
 
 	# Colours
@@ -46,11 +48,15 @@ def game():
 	v=0
 	s=Speed
 
-	while not quit:
+	pygame.init()
+	screen=pygame.display.set_mode((800,600))
+	pygame.display.set_caption("Game")
 
-		pygame.init()
-		screen=pygame.display.set_mode((800,600))
-		pygame.display.set_caption("Game")
+	(a, b, c, d, e, f) = shop.shop(screen, 0, 0, 0, 0, 0, 0)
+	print(str(a) + str(b) + str(c))
+	screen.fill(black)
+
+	while not quit:
 		keys = pygame.key.get_pressed()
 
 		for event in pygame.event.get():
@@ -125,7 +131,11 @@ def game():
 				playerCurrent -= 1
 
 			if x < 0 or x > 770 or y < 50 or y > 570 or playerCurrent < 1:
+<<<<<<< HEAD
 				return 0
+=======
+				return(0)
+>>>>>>> 80cc60a609870a0f89c5dd92acf8885d2f8a509c
 				#death screen here
 				pygame.QUIT()
 
@@ -142,7 +152,10 @@ def game():
 			pygame.draw.rect(screen, blue, (x, y, w, h))
 
 			screen.blit(bossHP,(350,0))
+<<<<<<< HEAD
 
 			pygame.display.update()
+=======
+>>>>>>> 80cc60a609870a0f89c5dd92acf8885d2f8a509c
 
 game()
