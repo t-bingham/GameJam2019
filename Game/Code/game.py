@@ -2,16 +2,17 @@ import pygame
 import random
 import sys
 
-# Colours
-black = (0, 0, 0)
-white = (255, 255, 255)
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
-
-pygame.font.init()
-font = pygame.font.Font(pygame.font.get_default_font(), 30)
 def game():
+
+	# Colours
+	black = (0, 0, 0)
+	white = (255, 255, 255)
+	red = (255, 0, 0)
+	green = (0, 255, 0)
+	blue = (0, 0, 255)
+
+	pygame.font.init()
+	font = pygame.font.Font(pygame.font.get_default_font(), 30)
 
 	FPS = 60
 
