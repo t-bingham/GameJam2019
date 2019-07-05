@@ -27,9 +27,8 @@ def main():
 
 
 	"""Stop timer conditions"""
-	alive = True
-	boss = True
-	pause = False
+	win = False
+	pause = True
 	quit = False
 
 	x=20
@@ -46,52 +45,95 @@ def main():
 		pygame.init()
 		screen=pygame.display.set_mode((800,600))
 		pygame.display.set_caption("Game")
-
-		pygame.time.delay(50)
-		stop_condition = None
-
-		for event in pygame.event.get():
-			if event.type==pygame.QUIT:
-				stop_condition = "quit"
-				quit = True
-
 		keys = pygame.key.get_pressed()
 
-		if keys[pygame.K_LEFT]:
-			x -= s
-		if keys[pygame.K_RIGHT]:
-			x += s
-		if keys[pygame.K_DOWN]:
-			v -= r
-		v += g
+		for event in pygame.event.get():
+				if event.type==pygame.QUIT:
+					stop_condition = "quit"
+					quit = True
 
-		y -= v
+		if win:
+			pygame.time.delay(50)
+			wintext = font.render('YOU WIN!', True, white)
+			wintext2 = font.render('Press m to return to menu', True, white)
+			keys = pygame.key.get_pressed()
+
+			for event in pygame.event.get():
+				if event.type==pygame.QUIT:
+					return("quit")
+					quit = True
+
+			if keys[pygame.K_m]:
+				return("win")
+
+			screen.blit(wintext,(300,200))
+			screen.blit(wintext2,(220,300))
+			pygame.display.update()
+
+		while pause: 
+			pygame.time.delay(50)
+			pausetext = font.render('Press space to play', True, white)
+			keys = pygame.key.get_pressed()
+
+			for event in pygame.event.get():
+				if event.type==pygame.QUIT:
+					stop_condition = "quit"
+					quit = True
+
+			if keys[pygame.K_SPACE]:
+				pause = False
+
+			screen.blit(pausetext,(300,300))
+			pygame.display.update()
+
+		while not pause and not win:
+
+			pygame.time.delay(50)
+			stop_condition = None
+
+			for event in pygame.event.get():
+				if event.type==pygame.QUIT:
+					return("quit")
+					quit = True
+
+			keys = pygame.key.get_pressed()
+
+			if keys[pygame.K_LEFT]:
+				x -= s
+			if keys[pygame.K_RIGHT]:
+				x += s
+			if keys[pygame.K_DOWN]:
+				v -= r
+			v += g
+
+			y -= v
 
 
-		if keys[pygame.K_q]:
-			currHealth -= Gun
+			if keys[pygame.K_q]:
+				currHealth -= Gun
+
+			if keys[pygame.K_p]:
+				pause = True
 
 
-		if x < 0 or x > 770 or y < 50 or y > 570:
-			stop_condition = "dead"
-			alive = False
-			quit = True
-			#death screen here
-			pygame.QUIT()
+			if x < 0 or x > 770 or y < 50 or y > 570:
+				return("dead")
+				#death screen here
+				pygame.QUIT()
 
-		textsurface = font.render('%d / %d' %(currHealth, maxHealth), True, (120,120,200))
+			if currHealth < 1:
+				win = True
+			textsurface = font.render('%d / %d' %(currHealth, maxHealth), True, (120,120,200))
 
-		screen.fill(black)
+			screen.fill(black)
 
-		pygame.draw.rect(screen, red, (0,0,800,50))
-		pygame.draw.rect(screen, green, (0,0,currHealth/maxHealth*800,50))
-		pygame.draw.rect(screen, blue, (x, y, w, h))
-		screen.blit(textsurface,(350,0))
+			pygame.draw.rect(screen, red, (0,0,800,50))
+			pygame.draw.rect(screen, green, (0,0,currHealth/maxHealth*800,50))
+			pygame.draw.rect(screen, blue, (x, y, w, h))
+			screen.blit(textsurface,(350,0))
 
-		pygame.display.update()
+			pygame.display.update()
 
-
-	return stop_condition
 
 
 
