@@ -141,5 +141,3 @@ def game():
 			screen.blit(textsurface,(350,0))
 
 			pygame.display.update()
-
-game()
