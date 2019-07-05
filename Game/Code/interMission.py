@@ -2,12 +2,6 @@ import pygame
 import random
 import time
 
-import game
-
-
-# Initialise Pygame
-pygame.init()
-
 
 # Definitions
 displayWidth = 800
@@ -21,13 +15,6 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
-
-
-# Initialisations
-display = pygame.display.set_mode((displayWidth, displayHeight))
-pygame.display.set_caption('Missinterpretation')
-clock = pygame.time.Clock()
-pygame.font.init()
 
 
 
@@ -84,131 +71,95 @@ def createText(text, fontType, size, xPos, yPos):
 
     return (textsurface, (xPos, yPos), 0)
 
-def begin():
-    # Close the window
-    global display
-    pygame.quit()
-    start = time.time()
-    levelNumber = 1
 
-    playerName = ""
-
-    while (levelNumber < 6) and (type(playerName) == str):
-        playerName = game.game(levelNumber) # Start the game
-        levelNumber += 1
-
-    # Reopen the window
-    end = time.time()
-    playerTime = int(end - start)
-
-    display = pygame.display.set_mode((displayWidth, displayHeight))
-    pygame.display.set_caption('Misinterpretation')
+def interMission(display, health, money, n):
     clock = pygame.time.Clock()
     pygame.font.init()
 
-    if type(playerName) == str:
-        if playerName.strip() == '':
-            playerName = '*'
+    damageAmount = 1
+    interChange = 1
+    numberWords = 5
 
-    return [playerName, playerTime]
+    words = ["Interact", "Interject", "Interlude", "Interchange"] # Words to display
+    wordPairs = [True, False, False, True] # Is the word correct?
+    word = [words[n], words[n+1]]
 
-
-def close():
-    pygame.quit()
-    quit()
-
-
-def main():
+    wordIndex = n * numberWords * 2 - 2
     loopExit = False
-    startGame = False
+    unclicked = True
+    getNext = True
     latestButtonData = [0, (0, 0)] # Last mouse button used and where it was used
     itemsToDisplay = [] # Items to blit to screen, and where to put them
-    textItems = [] # Text to display for score sheet
-    scores = [] # Player scores from the game
-    scoreData = {} # Player names and scores from the game
 
-    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
+    backgroundImage = createBackground('../Images/Backgrounds/Shop.png') # Load and scale background
 
     itemsToDisplay.append((backgroundImage, (0, 0), 1)) # Add background to queue
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.jpg'),
-        screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.jpeg', '../Images/Sprites/QuitButton.png')
+        screenItem('inter1', 285, 200, 315, 285, 200, 230, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+.png'),
+        screenItem('inter2', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+.png')
         ]
 
     while not loopExit:
-        # Enter actual game?
-        if startGame == True:
-            data = begin() # Start the game
-
-            if type(data[0]) == str:
-                # Organise high score data
-                while(data[0] in scoreData):
-                    data[0] += "-"
-            
-                scoreData[data[0]] = data[1]
-                scores.append(data[1])
-                scores.sort()
-
-            for clickable in screenItems:
-                clickable.regular()
-            
-            # Game has ended, stay in main menu
-            startGame = False
-            latestButtonData = [0, (0, 0)]
-
 
         # Event Handling
         for event in pygame.event.get():
-            # If the window 'exit' button is pressed
-            if event.type == pygame.QUIT:
-                loopExit = True
-
-            # If the 'esc' key is pressed
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    loopExit = True
-            
             # If any mouse button is pressed
             if event.type == pygame.MOUSEBUTTONDOWN:
                 latestButtonData[0] = event.button
                 latestButtonData[1] = event.pos
                 #print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
-
-        for i in range(0, 5):
-            if len(scores) <= i:
-                break
-            score = scores[i]
-            playerName = "-"
-            for name in scoreData:
-                if scoreData[name] == score:
-                    playerName = name
-                    break
             
-            while playerName[len(playerName)-1] == '-':
-                playerName = playerName.strip('-')
-            if len(playerName) > 5:
-                playerName = playerName[:5]
-
-            textToBlit = createText(playerName, 'Comic Sand MS', 30, 400, 150 + i * 25)
-            itemsToDisplay.append(textToBlit)
-            textToBlit = createText(str(score), 'Comic Sand MS', 30, 500, 150 + i * 25)
-            itemsToDisplay.append(textToBlit)
+            # If any mouse button is released
+            if event.type == pygame.MOUSEBUTTONUP:
+                unclicked = True
+                for clickable in screenItems:
+                    latestButtonData = [0, (0, 0)]
+                    clickable.regular()
 
         for clickable in screenItems:
             if latestButtonData[0] == 1:
                 if (latestButtonData[1][0] >= clickable.xHitLow) and (latestButtonData[1][0] <= clickable.xHitHigh):
                     if (latestButtonData[1][1] >= clickable.yHitHigh) and (latestButtonData[1][1] <= clickable.yHitLow):
-                        if not clickable.isGray:
+                        if (unclicked == True) and (clickable.isGray == False):
+                            unclicked = False
+                            getNext = True
                             clickable.clicked()
-                            if clickable.name == "Start":
-                                startGame = True
-                            elif clickable.name == "Quit":
-                                loopExit = True
+                            if clickable.name == "inter1":
+                                if correct == True:
+                                    money += interChange
+                                else:
+                                    health -= damageAmount
+                            
+                            elif clickable.name == "inter2":
+                                if correct == False:
+                                    money += interChange
+                                else:
+                                    health -= damageAmount
             
             if clickable.image != None:
                 itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
+        
+        textToBlit = createText(str(money), 'Comic Sand MS', 30, 400, 150)
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(health), 'Comic Sand MS', 30, 400, 175)
+        itemsToDisplay.append(textToBlit)
+
+        textToBlit = createText(str(word[0]), 'Comic Sand MS', 30, 285, 200)
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(word[1]), 'Comic Sand MS', 30, 285, 100)
+        itemsToDisplay.append(textToBlit)
+
+        if getNext:
+            if wordIndex > (n * numberWords * 2 + numberWords * 2):
+                loopExit = True
+            else:
+                getNext = False
+                wordIndex += 2
+                word[0] = words[wordIndex]
+                word[1] = words[wordIndex + 1]
+                correct = wordPairs[wordIndex]
 
         display.fill(black)
         newDisp = []
@@ -221,11 +172,6 @@ def main():
         # Push to screen
         pygame.display.update()
         clock.tick(fps)
-    
-    close()
-	
 
-if __name__ == '__main__':
-	main()
+    return (health, money)
 
-close()

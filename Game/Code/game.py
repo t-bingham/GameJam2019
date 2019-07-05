@@ -2,8 +2,6 @@ import pygame
 import random
 import sys
 
-import shop
-
 def game():
 
 	# Colours
@@ -50,9 +48,6 @@ def game():
 	screen=pygame.display.set_mode((800,600))
 	pygame.display.set_caption("Game")
 
-	(a, b, c, d, e, f) = shop.shop(screen, 0, 0, 0, 0, 0, 0)
-	print(str(a) + str(b) + str(c))
-	screen.fill(black)
 
 	while not quit:
 		keys = pygame.key.get_pressed()
