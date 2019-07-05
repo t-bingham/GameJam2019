@@ -142,3 +142,4 @@ def game():
 
 			pygame.display.update()
 
+game()
