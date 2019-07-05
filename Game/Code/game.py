@@ -1,6 +1,8 @@
 import pygame
 import random
 import sys
+import string
+import time
 
 def game():
 
@@ -53,7 +55,7 @@ def game():
 
 		for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					stop_condition = "quit"
+					return 0
 					quit = True
 
 		if win:
@@ -68,7 +70,7 @@ def game():
 					quit = True
 
 			if keys[pygame.K_m]:
-				return("win")
+				return("Win")
 
 			screen.blit(wintext,(300,200))
 			screen.blit(wintext2,(220,300))
@@ -81,7 +83,7 @@ def game():
 
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					stop_condition = "quit"
+					return 0
 					quit = True
 
 			if keys[pygame.K_SPACE]:
@@ -97,7 +99,7 @@ def game():
 
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					return("quit")
+					return 0
 					quit = True
 
 			keys = pygame.key.get_pressed()
@@ -123,7 +125,7 @@ def game():
 				playerCurrent -= 1
 
 			if x < 0 or x > 770 or y < 50 or y > 570 or playerCurrent < 1:
-				return("dead")
+				return 0
 				#death screen here
 				pygame.QUIT()
 
@@ -139,6 +141,8 @@ def game():
 			pygame.draw.rect(screen, green, (0,550,playerCurrent/playerHealth*200,50))
 			pygame.draw.rect(screen, blue, (x, y, w, h))
 
-			screen.blit(textsurface,(350,0))
+			screen.blit(bossHP,(350,0))
 
 			pygame.display.update()
+
+game()
