@@ -2,6 +2,8 @@ import pygame
 import random
 import time
 
+import game
+
 
 # Initialise Pygame
 pygame.init()
@@ -84,8 +86,24 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 def begin():
-    playerName = input("Name: ")
-    playerTime = random.randint(10, 10000)
+    # Close the window
+    global display
+    pygame.quit()
+    start = time.time()
+
+    game.main() # Start the game
+    
+    # Reopen the window
+    end = time.time()
+    playerTime = int(end - start)
+
+    display = pygame.display.set_mode((displayWidth, displayHeight))
+    pygame.display.set_caption('GAME NAME HERE!')
+    clock = pygame.time.Clock()
+    pygame.font.init()
+
+    if playerName.strip() == '':
+        playerName = '*'
 
     return [playerName, playerTime]
 
@@ -164,15 +182,12 @@ def main():
             
             while playerName[len(playerName)-1] == '-':
                 playerName = playerName.strip('-')
-            if len(playerName) > 10:
-                playerName = playerName[:10]
-            while len(playerName) < 10:
-                playerName += " "
-            
-            text = playerName + " "*10 + str(score)
+            if len(playerName) > 5:
+                playerName = playerName[:5]
 
-            textToBlit = createText(text, 'Comic Sand MS', 30, 400, 150 + i * 25)
-
+            textToBlit = createText(playerName, 'Comic Sand MS', 30, 400, 150 + i * 25)
+            itemsToDisplay.append(textToBlit)
+            textToBlit = createText(str(score), 'Comic Sand MS', 30, 500, 150 + i * 25)
             itemsToDisplay.append(textToBlit)
 
         for clickable in screenItems:
