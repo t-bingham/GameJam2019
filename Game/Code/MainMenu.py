@@ -1,4 +1,5 @@
 import pygame
+import random
 import time
 
 
@@ -24,6 +25,7 @@ blue = (0, 0, 255)
 display = pygame.display.set_mode((displayWidth, displayHeight))
 pygame.display.set_caption('GAME NAME HERE!')
 clock = pygame.time.Clock()
+pygame.font.init()
 
 
 
@@ -31,24 +33,41 @@ clock = pygame.time.Clock()
 
 
 class screenItem:
-
-    def __init__(self, xPos, yPos, xHitHigh, xHitLow, yHitHigh, yHitLow, imagePathNormal, imagePathClicked=None, imagePathGray=None:
+    def __init__(self, name, xPos, yPos, xHitHigh, xHitLow, yHitHigh, yHitLow, imagePathClicked, imagePathNormal=None, imagePathGray=None):
+        self.name = name
         self.xPos = xPos
         self.yPos = yPos
         self.xHitHigh = xHitHigh
         self.xHitLow = xHitLow
         self.yHitHigh = yHitHigh
         self.yHitLow = yHitLow
-        self.imagePathNormal = imagePathNormal
-        self.imagePathClicked = imagePathClicked
-        self.imagePathGray = imagePathGray
 
-        self.image = imagePathNormal
-
-        if imagePathClicked != None:
-            self.canClick = True
+        if imagePathNormal != None:
+            self.imagePathNormal = pygame.image.load(imagePathNormal)
+            self.imagePathNormal = pygame.transform.scale(self.imagePathNormal, ((xHitHigh - xHitLow), (yHitLow - yHitHigh)))
         else:
-            self.canClick = False
+            self.imagePathNormal = None
+        
+        if imagePathGray != None:
+            self.imagePathGray = pygame.image.load(imagePathGray)
+            self.imagePathGray = pygame.transform.scale(self.imagePathGray, ((xHitHigh - xHitLow), (yHitLow - yHitHigh)))
+        else:
+            self.imagePathGray = None
+
+        self.imagePathClicked = pygame.image.load(imagePathClicked)
+        self.imagePathClicked = pygame.transform.scale(self.imagePathClicked, ((xHitHigh - xHitLow), (yHitLow - yHitHigh)))
+
+        self.image = self.imagePathNormal
+        self.isGray = False
+    
+    def clicked(self):
+        self.image = self.imagePathClicked
+    
+    def regular(self):
+        self.image = self.imagePathNormal
+    
+    def gray(self):
+        self.image = self.imagePathGray
 
 
 def createBackground(path):
@@ -58,6 +77,19 @@ def createBackground(path):
     return backgroundImage
 
 
+def createText(text, fontType, size, xPos, yPos):
+    myFont = pygame.font.SysFont(fontType, size)
+    textsurface = myFont.render(text, False, (0, 0, 0))
+
+    return (textsurface, (xPos, yPos), 0)
+
+def begin():
+    playerName = input("Name: ")
+    playerTime = random.randint(10, 10000)
+
+    return [playerName, playerTime]
+
+
 def close():
     pygame.quit()
     quit()
@@ -65,16 +97,44 @@ def close():
 
 def main():
     loopExit = False
-    latestButtonData = [0, (0, 0)]
-    itemsToDisplay = []
+    startGame = False
+    latestButtonData = [0, (0, 0)] # Last mouse button used and where it was used
+    itemsToDisplay = [] # Items to blit to screen, and where to put them
+    textItems = [] # Text to display for score sheet
+    scores = [] # Player scores from the game
+    scoreData = {} # Player names and scores from the game
 
-    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png')
+    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
 
-    itemsToDisplay.append((backgroundImage, (0, 0)))
+    itemsToDisplay.append((backgroundImage, (0, 0), 1)) # Add background to queue
 
-    screenItems = []
+    # Clickable items on screen and their locations
+    screenItems = [
+        screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.jpg'),
+        screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.jpeg', '../Images/Sprites/QuitButton.png')
+        ]
 
     while not loopExit:
+        # Enter actual game?
+        if startGame == True:
+            data = begin() # Start the game
+
+            # Organise high score data
+            while(data[0] in scoreData):
+                data[0] += "-"
+            
+            scoreData[data[0]] = data[1]
+            scores.append(data[1])
+            scores.sort()
+
+            for clickable in screenItems:
+                clickable.regular()
+            
+            # Game has ended, stay in main menu
+            startGame = False
+            latestButtonData = [0, (0, 0)]
+
+
         # Event Handling
         for event in pygame.event.get():
             # If the window 'exit' button is pressed
@@ -92,10 +152,50 @@ def main():
                 latestButtonData[1] = event.pos
                 #print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
 
-        display.fill(black)
+        for i in range(0, 5):
+            if len(scores) <= i:
+                break
+            score = scores[i]
+            playerName = "-"
+            for name in scoreData:
+                if scoreData[name] == score:
+                    playerName = name
+                    break
+            
+            while playerName[len(playerName)-1] == '-':
+                playerName = playerName.strip('-')
+            if len(playerName) > 10:
+                playerName = playerName[:10]
+            while len(playerName) < 10:
+                playerName += " "
+            
+            text = playerName + " "*10 + str(score)
 
+            textToBlit = createText(text, 'Comic Sand MS', 30, 400, 150 + i * 25)
+
+            itemsToDisplay.append(textToBlit)
+
+        for clickable in screenItems:
+            if latestButtonData[0] == 1:
+                if (latestButtonData[1][0] >= clickable.xHitLow) and (latestButtonData[1][0] <= clickable.xHitHigh):
+                    if (latestButtonData[1][1] >= clickable.yHitHigh) and (latestButtonData[1][1] <= clickable.yHitLow):
+                        if not clickable.isGray:
+                            clickable.clicked()
+                            if clickable.name == "Start":
+                                startGame = True
+                            elif clickable.name == "Quit":
+                                loopExit = True
+            
+            if clickable.image != None:
+                itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
+
+        display.fill(black)
+        newDisp = []
         for item in itemsToDisplay:
             display.blit(item[0], item[1])
+            if item[2] == 1:
+                newDisp.append(item)
+        itemsToDisplay = newDisp
 
         # Push to screen
         pygame.display.update()
