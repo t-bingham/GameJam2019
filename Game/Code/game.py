@@ -3,6 +3,7 @@ import random
 import sys
 import string
 import time
+import namer
 
 def game():
 
