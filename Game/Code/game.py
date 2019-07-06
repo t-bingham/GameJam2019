@@ -4,7 +4,9 @@ import sys
 import string
 import time
 
-def game():
+import interMission
+
+def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 	# Colours
 	black = (0, 0, 0)
@@ -50,6 +52,8 @@ def game():
 	screen=pygame.display.set_mode((800,600))
 	pygame.display.set_caption("Game")
 
+	health, ammunition, Mdamage, Rdamage, fuel, money = interMission.interMission(screen, health, ammunition, Mdamage, Rdamage, fuel, money, levelNum-1)
+	print("Health = %d\nAmmunition = %d\nMdamage = %d\nRdamage = %d\nFuel = %d\nMoney = %d" %(health, ammunition, Mdamage, Rdamage, fuel, money))
 
 	while not quit:
 		keys = pygame.key.get_pressed()

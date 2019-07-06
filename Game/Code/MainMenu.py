@@ -25,7 +25,7 @@ blue = (0, 0, 255)
 
 # Initialisations
 display = pygame.display.set_mode((displayWidth, displayHeight))
-pygame.display.set_caption('Missinterpretation')
+pygame.display.set_caption('The Interim')
 clock = pygame.time.Clock()
 pygame.font.init()
 
@@ -84,17 +84,59 @@ def createText(text, fontType, size, xPos, yPos):
 
     return (textsurface, (xPos, yPos), 0)
 
+
+def playMovie(clip):
+    pygame.mouse.set_visible(False)
+
+    pygame.mixer.quit()
+    movie = pygame.movie.Movie(clip)
+    movie_screen = pygame.Surface(movie.get_size()).convert()
+    #movie_screen = pygame.transform.scale(movie_screen, (displayWidth, displayHeight))
+    movie.set_display(movie_screen)
+    movie.play()
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    movie.stop()
+                    running = False
+        
+        if not movie.get_busy():
+            movie.stop()
+            running = False
+        
+        display.fill(black)
+        display.blit(movie_screen, (displayWidth / 2 - movie.get_size()[0] / 2, displayHeight / 2 - movie.get_size()[1] / 2))
+        pygame.display.update()
+        clock.tick(fps)
+
+    pygame.mouse.set_visible(True)
+
+
 def begin():
     # Close the window
     global display
+
+    # Cutscene
+    playMovie("../Images/Intro.mpg")
+
     pygame.quit()
     start = time.time()
     levelNumber = 1
 
     playerName = ""
 
+    health = 87
+    ammunition = 23
+    Mdamage = 1
+    Rdamage = 1
+    fuel = 13
+    money = 1233
+
     while (levelNumber < 6) and (type(playerName) == str):
-        playerName = game.game(levelNumber) # Start the game
+        playerName = game.game(levelNumber, health, ammunition, Mdamage, Rdamage, fuel, money) # Start the game
         levelNumber += 1
 
     # Reopen the window
@@ -102,7 +144,7 @@ def begin():
     playerTime = int(end - start)
 
     display = pygame.display.set_mode((displayWidth, displayHeight))
-    pygame.display.set_caption('Misinterpretation')
+    pygame.display.set_caption('The Interim')
     clock = pygame.time.Clock()
     pygame.font.init()
 

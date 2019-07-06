@@ -28,3 +28,84 @@ Controls: Arrow keys = move: left/right, up: jump, down: crouch.
 Upgrades: Costs interchange to increase health, damage, reduce time on R etc.
 
 High score: using time to complete game?
+
+
+
+
+
+Voice lines for Hugh:
+
+1)
+"This is a story of a girl named Inter. Inter worked for a company in a big building where she was employee number 7 2 4. Employee number 7 2 4's job was simple.
+She sat at her desk in room 7 2 4, and she pushed buttons on a keyboard. Orders came to her through a monitor on her desk telling her which buttons to push,
+how long to push them, and in what order. This is what employee 7 2 4 did every every day of every month of every year, and although others may have considered it soul rending,
+Inter relished every moment that the orders came in as though she had been made exactly for this job. And Inter, was happy.
+And then one day something very perculiar happened. Something that would forever change Inter. Something she would never quite forget. She had been making her game for nearly an hour
+when she realised that not one single reasonable theme idea had arrived on the monitor for her to follow. No one had showed up to challenge the jam master,
+call for a vote, or even complain. Never, in all her years of game jams, had this happened. This complete change. Something was very clearly wrong. Shocked, frozon solid,
+Inter found herself unable to move for the longest time. But as she came to her witts and regained her senses, she got up from her desk and stepped out of her office.
+Everything had become Crys-tal clear"
+
+2)
+"Welcome to the inter"
+
+3)
+"nship"
+
+4)
+"Time for an inter"
+
+5)
+"lude"
+
+6)
+"I think it's time for an inter"
+
+7)
+"mission"
+
+8)
+"Congratulations Miss Inter Pretation, you've won!"
+
+9)
+"You tremendous dumbass. Now we need to have an interment"
+
+10)
+"Looks like you're going to have to stay between the walls. Inter wall, if you will. Oh, and shoot the bad guys."
+
+11)
+"INTER"
+
+12)
+"action"
+
+13)
+*In distance, with sound of making coffee*
+"Sorry, I'll be back in a moment, I just needed to grab a coffee."
+
+14)
+"Shit, fuck!"
+
+15)
+"Allow me to inter"
+
+16)
+"rupt"
+
+17)
+"I've been inter"
+
+18)
+"nalysing a very complicated situation in my head"
+
+19)
+"It physically pains me to use the correct inter theme"
+
+20)
+"Is that even a real word?"
+
+21)
+"Yup, that's the one"
+
+22)
+"Theme ideas, click on the good ones"

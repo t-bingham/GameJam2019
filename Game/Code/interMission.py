@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+import shop
 
 
 # Definitions
@@ -72,7 +73,7 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
-def interMission(display, health, money, n):
+def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     clock = pygame.time.Clock()
     pygame.font.init()
 
@@ -80,8 +81,16 @@ def interMission(display, health, money, n):
     interChange = 1
     numberWords = 5
 
-    words = ["Interact", "Interject", "Interlude", "Interchange"] # Words to display
-    wordPairs = [True, False, False, True] # Is the word correct?
+    words = ["Interact", "Interject", "Interlude", "Interchange", "Intermezzos", "Internment", "Interabang", "Interannual", "Interiority", "Interjoin",
+    "Interlining", "Interlarded", "Internality", "Interlayers", "Internecine", "Intertribal", "Intermingle", "Intersperse", "Intervene", "Interoffice",
+    "Interplead", "Intergrade", "Interview", "Interstrand", "Intermixing", "Interlinear", "Internuncio", "Interplant", "Interracial", "Internship",
+    "Internalise", "Intertill", "Interacting", "Interschool", "Interisland", "Interabang", "Internecine", "Interpose", "Interpret", "Intermingle",
+    "Intergraph", "Interlude", "Interview", "Interannual", "Intergrade", "Interlayers", "Interlinear", "Internalise", "Interline", "Internment"
+    ] # Words to display
+    wordPairs = [True, False, False, True, False, True, True, False, True, False, False, True, True, False, True, False, False, True, True, False,
+    False, True, True, False, True, False, True, False, False, True, True, False, True, False, False, True, True, False, True, False, True, False,
+    True, False, True, False, False, True, False, True
+    ] # Is the word correct?
     word = [words[n], words[n+1]]
 
     wordIndex = n * numberWords * 2 - 2
@@ -152,7 +161,7 @@ def interMission(display, health, money, n):
         itemsToDisplay.append(textToBlit)
 
         if getNext:
-            if wordIndex > (n * numberWords * 2 + numberWords * 2):
+            if wordIndex >= (n * numberWords * 2 + numberWords * 2) - 2:
                 loopExit = True
             else:
                 getNext = False
@@ -173,5 +182,6 @@ def interMission(display, health, money, n):
         pygame.display.update()
         clock.tick(fps)
 
-    return (health, money)
+    health, ammunition, Mdamage, Rdamage, fuel, money = shop.shop(display, health, ammunition, Mdamage, Rdamage, fuel, money)
+    return (health, ammunition, Mdamage, Rdamage, fuel, money)
 
