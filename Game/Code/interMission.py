@@ -89,10 +89,26 @@ def playMusic(music):
     startTime = time.time()
 
 
+class musicToPlay:
+    def __init__(self, ready=False, music=None):
+        self.music = music
+        self.ready = ready
+    
+    def add(self, music):
+        self.music = music
+        self.ready = True
+    
+    def play(self):
+        self.ready = False
+        playMusic(self.music)
+
+
 def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     global playingMusic
     global startTime
     global soundLength
+
+    nextMusic = musicToPlay()
 
     clock = pygame.time.Clock()
     pygame.font.init()
@@ -128,17 +144,20 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     latestButtonData = [0, (0, 0)] # Last mouse button used and where it was used
     itemsToDisplay = [] # Items to blit to screen, and where to put them
 
-    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
+    backgroundImage = createBackground('../Images/Backgrounds/intermission.png') # Load and scale background
 
     itemsToDisplay.append((backgroundImage, (0, 0), 1)) # Add background to queue
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('inter1', 285, 200, 315, 285, 200, 230, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+Shop.png'),
-        screenItem('inter2', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+Shop.png')
+        screenItem('inter1', 5, 248, 382, 5, 248, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png'),
+        screenItem('inter2', 413, 248, 790, 413, 248, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png')
         ]
 
     while not loopExit:
+
+        if nextMusic.ready:
+            nextMusic.play()
 
         # Event Handling
         for event in pygame.event.get():
@@ -146,7 +165,7 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 latestButtonData[0] = event.button
                 latestButtonData[1] = event.pos
-                #print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
+                print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
             
             # If any mouse button is released
             if event.type == pygame.MOUSEBUTTONUP:
@@ -167,24 +186,24 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
                                 if clickable.name == "inter1":
                                     if correct == True:
                                         money += interChange
-                                        playMusic("../Audio/Effects/MissionRight.wav")
+                                        nextMusic.add("../Audio/Effects/MissionRight.wav")
                                     else:
                                         health -= damageAmount
                                         if random.randint(0, 1) == 0:
-                                            playMusic("../Audio/Effects/MissionWrong1.wav")
+                                            nextMusic.add("../Audio/Effects/MissionWrong1.wav")
                                         else:
-                                            playMusic("../Audio/Effects/MissionWrong2.wav")
+                                            nextMusic.add("../Audio/Effects/MissionWrong2.wav")
                             
                                 elif clickable.name == "inter2":
                                     if correct == False:
                                         money += interChange
-                                        playMusic("../Audio/Effects/MissionRight.wav")
+                                        nextMusic.add("../Audio/Effects/MissionRight.wav")
                                     else:
                                         health -= damageAmount
                                         if random.randint(0, 1) == 0:
-                                            playMusic("../Audio/Effects/MissionWrong1.wav")
+                                            nextMusic.add("../Audio/Effects/MissionWrong1.wav")
                                         else:
-                                            playMusic("../Audio/Effects/MissionWrong2.wav")
+                                            nextMusic.add("../Audio/Effects/MissionWrong2.wav")
             
             if clickable.image != None:
                 itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
@@ -194,9 +213,9 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
         textToBlit = createText(str(health), 'Comic Sand MS', 30, 400, 175)
         itemsToDisplay.append(textToBlit)
 
-        textToBlit = createText(str(word[0]), 'Comic Sand MS', 30, 285, 200)
+        textToBlit = createText(str(word[0]), 'Comic Sand MS', 42, 107, 281)
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(word[1]), 'Comic Sand MS', 30, 285, 100)
+        textToBlit = createText(str(word[1]), 'Comic Sand MS', 42, 523, 281)
         itemsToDisplay.append(textToBlit)
 
         if not playingMusic:
