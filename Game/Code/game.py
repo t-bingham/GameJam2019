@@ -46,8 +46,6 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	print("Health = %d\nAmmunition = %d\nMdamage = %d\nRdamage = %d\nFuel = %d\nMoney = %d" %(health, ammunition, Mdamage, Rdamage, fuel, money))
 	screen.fill(black)
 
-	money = money
-
 	missileTimer = 0
 	targettedTimer = 0
 	waveTimer = 0
@@ -272,8 +270,9 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 							projectiles.pop(projectiles.index(projectile))
 				if projectile.safe == 0:
 					if projectile.x <= x + 5 and projectile.x >= x-5:
-						playerCurrent -= 1
-						projectiles.pop(projectiles.index(projectile))
+						if projectile.y < y + 5 and projectile.y > y-5:
+							playerCurrent -= 1
+							projectiles.pop(projectiles.index(projectile))
 
 			screen.blit(ammoText, (10,0))
 			screen.blit(bossHP,(350,0))
