@@ -85,7 +85,7 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
-def playMovie(clip):
+def playMovie(clip, music=None):
     pygame.mouse.set_visible(False)
 
     pygame.mixer.quit()
@@ -94,6 +94,11 @@ def playMovie(clip):
     #movie_screen = pygame.transform.scale(movie_screen, (displayWidth, displayHeight))
     movie.set_display(movie_screen)
     movie.play()
+    if music != None:
+        pygame.mixer.init()
+        pygame.mixer.music.load(music)
+        pygame.mixer.music.play()
+        #pygame.event.wait()
 
     running = True
     while running:
@@ -101,10 +106,12 @@ def playMovie(clip):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     movie.stop()
+                    pygame.mixer.music.stop()
                     running = False
         
         if not movie.get_busy():
             movie.stop()
+            pygame.mixer.music.stop()
             running = False
         
         display.fill(black)
@@ -116,13 +123,9 @@ def playMovie(clip):
 
 
 def begin():
-    # Close the window
-    global display
-
     # Cutscene
-    playMovie("../Images/Intro.mpg")
+    playMovie("../Images/Intro.mpg", "../Audio/Music/intro.mp3")
 
-    pygame.quit()
     start = time.time()
     levelNumber = 1
 
@@ -136,17 +139,12 @@ def begin():
     money = 1233
 
     while (levelNumber < 6) and (type(playerName) == str):
-        playerName = game.game(levelNumber, health, ammunition, Mdamage, Rdamage, fuel, money) # Start the game
+        playerName, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money = game.game(display, levelNumber, health, ammunition, Mdamage, Rdamage, fuel, money) # Start the game
         levelNumber += 1
 
     # Reopen the window
     end = time.time()
     playerTime = int(end - start)
-
-    display = pygame.display.set_mode((displayWidth, displayHeight))
-    pygame.display.set_caption('The Interim')
-    clock = pygame.time.Clock()
-    pygame.font.init()
 
     if type(playerName) == str:
         if playerName.strip() == '':
@@ -175,8 +173,8 @@ def main():
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.jpg'),
-        screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.jpeg', '../Images/Sprites/QuitButton.png')
+        screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.png'),
+        screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.png', '../Images/Sprites/QuitButton.png')
         ]
 
     while not loopExit:

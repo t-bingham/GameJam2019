@@ -73,9 +73,27 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
+def playMusic(music):
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+    pygame.mixer.init()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play()
+    #pygame.event.wait()
+
+
 def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     clock = pygame.time.Clock()
     pygame.font.init()
+
+    if n == 0:
+        playMusic("../Audio/Effects/InterMissionTut.wav")
+    else:
+        if random.randint(0, 1) == 0:
+            playMusic("../Audio/Effects/TimeForMission.wav")
+        else:
+            playMusic("../Audio/Effects/Interlude.wav")
 
     damageAmount = 1
     interChange = 1
@@ -100,14 +118,14 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     latestButtonData = [0, (0, 0)] # Last mouse button used and where it was used
     itemsToDisplay = [] # Items to blit to screen, and where to put them
 
-    backgroundImage = createBackground('../Images/Backgrounds/Shop.png') # Load and scale background
+    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
 
     itemsToDisplay.append((backgroundImage, (0, 0), 1)) # Add background to queue
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('inter1', 285, 200, 315, 285, 200, 230, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+.png'),
-        screenItem('inter2', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+.png')
+        screenItem('inter1', 285, 200, 315, 285, 200, 230, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+Shop.png'),
+        screenItem('inter2', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+Shop.png')
         ]
 
     while not loopExit:

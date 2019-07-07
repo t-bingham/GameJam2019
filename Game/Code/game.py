@@ -27,7 +27,7 @@ class Projectile(object):
 
 import interMission
 
-def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
+def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 	missileTimer = 0
 	targettedTimer = 0
@@ -83,19 +83,16 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	v=0
 	s=Speed
 
-	pygame.init()
-	screen=pygame.display.set_mode((800,600))
-	pygame.display.set_caption("Game")
-
 	health, ammunition, Mdamage, Rdamage, fuel, money = interMission.interMission(screen, health, ammunition, Mdamage, Rdamage, fuel, money, levelNum-1)
 	print("Health = %d\nAmmunition = %d\nMdamage = %d\nRdamage = %d\nFuel = %d\nMoney = %d" %(health, ammunition, Mdamage, Rdamage, fuel, money))
+	screen.fill(black)
 
 	while not quit:
 		keys = pygame.key.get_pressed()
 
 		for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					return 0
+					return 0, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 					quit = True
 
 		if win:
@@ -106,11 +103,11 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					return("quit")
+					return "quit", levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 					quit = True
 
 			if keys[pygame.K_m]:
-				return("Win")
+				return "Win", levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 
 			screen.blit(wintext,(300,200))
 			screen.blit(wintext2,(220,300))
@@ -123,7 +120,7 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					return 0
+					return 0, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 					quit = True
 
 			if keys[pygame.K_SPACE]:
@@ -147,7 +144,7 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 			for event in pygame.event.get():
 				if event.type==pygame.QUIT:
-					return 0
+					return 0, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 					quit = True
 
 			keys = pygame.key.get_pressed()
@@ -182,7 +179,7 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 				playerCurrent -= 1
 
 			if x < 0 or x > 770 or y < 50 or y > 570 or playerCurrent < 1:
-				return 0
+				return 0, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 				#death screen here
 				pygame.QUIT()
 
@@ -226,4 +223,3 @@ def game(levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 			screen.blit(ammoText, (10,0))
 			screen.blit(bossHP,(350,0))
 			pygame.display.update()
-game()

@@ -72,9 +72,21 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
+def playMusic(music):
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+    pygame.mixer.init()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play()
+    #pygame.event.wait()
+
+
 def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
     clock = pygame.time.Clock()
     pygame.font.init()
+
+    playMusic('../Audio/Effects/WelcomeShop.wav')
 
     healthCost = 10
     ammoCost = 100
@@ -95,8 +107,17 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('purchase', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.jpeg', '../Images/Sprites/-.png'),
-        screenItem('healthIncrease', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/+.png')
+        screenItem('purchase', 477, 522, 721, 477, 522, 580, '../Images/Sprites/PushPurchase.png', '../Images/Sprites/Purchase.png', '../Images/Sprites/GrayPurchase.png'),
+        screenItem('fuelIncrease', 424, 202, 474, 424, 202, 255, '../Images/Sprites/+PushShop.png', '../Images/Sprites/+Shop.png'),
+        screenItem('fuelDecrease', 326, 202, 375, 326, 202, 255, '../Images/Sprites/-PushShop.png', '../Images/Sprites/-Shop.png'),
+        screenItem('healthIncrease', 424, 265, 474, 424, 265, 318, '../Images/Sprites/+PushShop.png', '../Images/Sprites/+Shop.png'),
+        screenItem('healthDecrease', 326, 265, 375, 326, 265, 318, '../Images/Sprites/-PushShop.png', '../Images/Sprites/-Shop.png'),
+        screenItem('rDamIncrease', 424, 323, 474, 424, 323, 376, '../Images/Sprites/+PushShop.png', '../Images/Sprites/+Shop.png'),
+        screenItem('rDamDecrease', 326, 323, 375, 326, 323, 376, '../Images/Sprites/-PushShop.png', '../Images/Sprites/-Shop.png'),
+        screenItem('mDamIncrease', 424, 387, 474, 424, 387, 440, '../Images/Sprites/+PushShop.png', '../Images/Sprites/+Shop.png'),
+        screenItem('mDamDecrease', 326, 387, 375, 326, 387, 440, '../Images/Sprites/-PushShop.png', '../Images/Sprites/-Shop.png'),
+        screenItem('ammoIncrease', 424, 452, 474, 424, 452, 505, '../Images/Sprites/+PushShop.png', '../Images/Sprites/+Shop.png'),
+        screenItem('ammoDecrease', 326, 452, 375, 326, 452, 505, '../Images/Sprites/-PushShop.png', '../Images/Sprites/-Shop.png')
         ]
 
     while not loopExit:
@@ -118,7 +139,7 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 latestButtonData[0] = event.button
                 latestButtonData[1] = event.pos
-                #print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
+                print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
             
             # If any mouse button is released
             if event.type == pygame.MOUSEBUTTONUP:
@@ -157,20 +178,20 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
                             elif clickable.name == "mDamDecrease":
                                 if textItems[4] > 0:
                                     textItems[0] -= MdamageCost
-                                    textItems[4] += 1
+                                    textItems[4] -= 1
                             elif clickable.name == "rDamIncrease":
                                 textItems[5] += 1
                                 textItems[0] += RdamageCost
                             elif clickable.name == "rDamDecrease":
                                 if textItems[5] > 0:
-                                    textItems[5] += 1
+                                    textItems[5] -= 1
                                     textItems[0] -= RdamageCost
                             elif clickable.name == "fuelIncrease":
                                 textItems[6] += 1
                                 textItems[0] += fuelCost
                             elif clickable.name == "fuelDecrease":
                                 if textItems[6] > 0:
-                                    textItems[6] += 1
+                                    textItems[6] -= 1
                                     textItems[0] -= fuelCost
                             elif clickable.name == "purchase":
                                 textItems[1] -= textItems[0]
@@ -179,19 +200,25 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
             if clickable.image != None:
                 itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
         
-        textToBlit = createText(str(textItems[0]), 'Comic Sand MS', 30, 400, 150)
+        textToBlit = createText(str(textItems[0]), 'Comic Sand MS', 30, 326, 539) # Total Cost
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[1]), 'Comic Sand MS', 30, 400, 175)
+        textToBlit = createText(str(textItems[1]), 'Comic Sand MS', 30, 722, 23) # Money
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[2]), 'Comic Sand MS', 30, 400, 200)
+        textToBlit = createText(str(textItems[2]), 'Comic Sand MS', 30, 387, 283) # Health Units
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[3]), 'Comic Sand MS', 30, 400, 225)
+        textToBlit = createText(str(textItems[3]), 'Comic Sand MS', 30, 387, 472) # Ammo Units
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[4]), 'Comic Sand MS', 30, 400, 250)
+        textToBlit = createText(str(textItems[4]), 'Comic Sand MS', 30, 387, 407) # Mdam Units
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[5]), 'Comic Sand MS', 30, 400, 275)
+        textToBlit = createText(str(textItems[5]), 'Comic Sand MS', 30, 387, 342) # Rdam Units
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(textItems[6]), 'Comic Sand MS', 30, 400, 300)
+        textToBlit = createText(str(textItems[6]), 'Comic Sand MS', 30, 387, 219) # Fuel Units
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(health), 'Comic Sand MS', 30, 526, 23) # Health
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(fuel), 'Comic Sand MS', 30, 416, 23) # Fuel
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(ammunition), 'Comic Sand MS', 30, 617, 23) # Ammo
         itemsToDisplay.append(textToBlit)
 
         if (textItems[0] > textItems[1]):
