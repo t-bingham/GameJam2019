@@ -107,11 +107,11 @@ def begin():
 
     playerName = ""
 
-    health = 20
-    ammunition = 40
+    health = 100
+    ammunition = 10
     Mdamage = 1
     Rdamage = 1
-    fuel = 600
+    fuel = 100
     money = 1000
 
     while (levelNumber < 6) and (type(playerName) == str):

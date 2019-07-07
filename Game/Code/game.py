@@ -83,7 +83,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	g=1
 	r=2.5
 	v=0
-	s=Speed
+	s=5
 
 	weapon = 0
 	switchTimer=10
@@ -264,7 +264,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 				if projectile.safe == 0:
 					if projectile.x <= x + 5 and projectile.x >= x-5:
 						if projectile.y < y + 5 and projectile.y > y-5:
-							playerCurrent -= int(2*levelNum**1.5)
+							playerCurrent -= 2*levelNum**2
 							projectiles.pop(projectiles.index(projectile))
 
 			screen.blit(ammoText, (10,0))
