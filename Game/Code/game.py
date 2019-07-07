@@ -35,7 +35,16 @@ import interMission
 
 def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
-	money = money
+	# Colours
+	black = (0, 0, 0)
+	white = (255, 255, 255)
+	red = (255, 0, 0)
+	green = (0, 255, 0)
+	blue = (0, 0, 255)
+
+	health, ammunition, Mdamage, Rdamage, fuel, money = interMission.interMission(screen, health, ammunition, Mdamage, Rdamage, fuel, money, levelNum-1)
+	print("Health = %d\nAmmunition = %d\nMdamage = %d\nRdamage = %d\nFuel = %d\nMoney = %d" %(health, ammunition, Mdamage, Rdamage, fuel, money))
+	screen.fill(black)
 
 	missileTimer = 0
 	targettedTimer = 0
@@ -49,13 +58,6 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 
 	reloadCount = 1000
 	projectiles = []
-
-	# Colours
-	black = (0, 0, 0)
-	white = (255, 255, 255)
-	red = (255, 0, 0)
-	green = (0, 255, 0)
-	blue = (0, 0, 255)
 
 	pygame.font.init()
 	font = pygame.font.Font(pygame.font.get_default_font(), 30)
@@ -100,10 +102,6 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	spike2=pygame.image.load("../Images/Sprites/main_sprite/spike/spike2.png")
 	spike3=pygame.image.load("../Images/Sprites/main_sprite/spike/spike3.png")
 	currSprite = gun1
-
-	health, ammunition, Mdamage, Rdamage, fuel, money = interMission.interMission(screen, health, ammunition, Mdamage, Rdamage, fuel, money, levelNum-1)
-	print("Health = %d\nAmmunition = %d\nMdamage = %d\nRdamage = %d\nFuel = %d\nMoney = %d" %(health, ammunition, Mdamage, Rdamage, fuel, money))
-	screen.fill(black)
 
 	while not quit:
 		keys = pygame.key.get_pressed()
@@ -272,8 +270,9 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 							projectiles.pop(projectiles.index(projectile))
 				if projectile.safe == 0:
 					if projectile.x <= x + 5 and projectile.x >= x-5:
-						playerCurrent -= 1
-						projectiles.pop(projectiles.index(projectile))
+						if projectile.y < y + 5 and projectile.y > y-5:
+							playerCurrent -= 1
+							projectiles.pop(projectiles.index(projectile))
 
 			screen.blit(ammoText, (10,0))
 			screen.blit(bossHP,(350,0))
