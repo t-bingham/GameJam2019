@@ -258,19 +258,28 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 				elif projectile.x >= 0 and projectile.x <= 800 and projectile.safe == 0:
 					projectile.x -= projectile.v
 				else:
-					projectiles.pop(projectiles.index(projectile))
+					try:
+						projectiles.pop(projectiles.index(projectile))
+					except:
+						continue
 				projectile.draw(screen)
 				if projectile.safe == 1:
 					screen.blit(spike, (projectile.x, projectile.y))
 					if projectile.x > 700:
 						if projectile.y > 200 and projectile.y < 400:
 							currHealth -= rangeDmg
-							projectiles.pop(projectiles.index(projectile))
+							try:
+								projectiles.pop(projectiles.index(projectile))
+							except:
+								continue
 				if projectile.safe == 0:
 					if projectile.x <= x and projectile.x >= x-40:
 						if projectile.y < y + 5 and projectile.y > y-5:
 							playerCurrent -= 10*(levelNum**2)
-							projectiles.pop(projectiles.index(projectile))
+							try:
+								projectiles.pop(projectiles.index(projectile))
+							except:
+								continue
 
 			screen.blit(ammoText, (10,0))
 			screen.blit(bossHP,(350,0))
