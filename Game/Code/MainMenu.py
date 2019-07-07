@@ -84,7 +84,7 @@ def createText(text, fontType, size, xPos, yPos):
 
     return (textsurface, (xPos, yPos), 0)
 
-
+"""
 def playMovie(clip, music=None):
     pygame.mouse.set_visible(False)
 
@@ -120,23 +120,23 @@ def playMovie(clip, music=None):
         clock.tick(fps)
 
     pygame.mouse.set_visible(True)
-
+"""
 
 def begin():
     # Cutscene
-    playMovie("../Images/Intro.mpg", "../Audio/Music/intro.mp3")
+    #playMovie("../Images/Intro.mpg", "../Audio/Music/intro.mp3")
 
     start = time.time()
     levelNumber = 1
 
     playerName = ""
 
-    health = 87
-    ammunition = 23
+    health = 20
+    ammunition = 40
     Mdamage = 1
     Rdamage = 1
-    fuel = 13
-    money = 1233
+    fuel = 6
+    money = 1000
 
     while (levelNumber < 6) and (type(playerName) == str):
         playerName, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money = game.game(display, levelNumber, health, ammunition, Mdamage, Rdamage, fuel, money) # Start the game
