@@ -27,7 +27,7 @@ class Projectile(object):
 			hi = None
 			#pygame.draw.circle(screen, (0, 255, 0), (self.x, self.y), 2)
 		elif self.safe == 0:
-			pygame.draw.circle(screen, self.colour, (self.x, self.y), 2)
+			pygame.draw.circle(screen, self.colour, (self.x, self.y), 3)
 
 
 
@@ -107,7 +107,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 		if win:
 			pygame.time.delay(50)
 			wintext = font.render('YOU WIN!', True, white)
-			wintext2 = font.render('Press m to return to menu', True, white)
+			wintext2 = font.render('Press m to continue', True, white)
 			keys = pygame.key.get_pressed()
 
 			for event in pygame.event.get():
@@ -164,7 +164,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 				x -= s
 			if keys[pygame.K_RIGHT]:
 				x += s
-			if keys[pygame.K_DOWN]:
+			if keys[pygame.K_UP]:
 				if currFuel > 0:
 					currFuel -= 5
 					v -= r
@@ -232,8 +232,18 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 			missileTimer += 1
 			spike=pygame.image.load("../Images/Sprites/main_sprite/spike/spike.png")
 			spike = pygame.transform.scale(spike, (64,40))
-			boss = pygame.image.load("../Images/Sprites/QuitButton.png")
+			if levelNum == 1:
+				boss = pygame.image.load("../Images/Sprites/1.png")
+			if levelNum == 2:
+				boss = pygame.image.load("../Images/Sprites/2.png")
+			if levelNum == 3:
+				boss = pygame.image.load("../Images/Sprites/3.png")
+			if levelNum == 4:
+				boss = pygame.image.load("../Images/Sprites/4.png")
+			if levelNum == 5:
+				boss = pygame.image.load("../Images/Sprites/5.png")
 			boss = pygame.transform.scale(boss, (176,240))
+
 			background = pygame.image.load("../Images/Backgrounds/game.png")
 			screen.blit(background, (0,0))
 
@@ -261,7 +271,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 							currHealth -= rangeDmg
 							projectiles.pop(projectiles.index(projectile))
 				if projectile.safe == 0:
-					if projectile.x <= x+20 and projectile.x >= x-20:
+					if projectile.x <= x and projectile.x >= x-40:
 						if projectile.y < y + 5 and projectile.y > y-5:
 							playerCurrent -= 10*(levelNum**2)
 							projectiles.pop(projectiles.index(projectile))
