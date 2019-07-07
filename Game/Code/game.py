@@ -50,8 +50,8 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	targettedTimer = 0
 	waveTimer = 0
 
-	rangeDmg = Rdamage*20
-	meleeDmg = Mdamage*60
+	rangeDmg = 20*(Rdamage)
+	meleeDmg = 60*(Mdamage/2)
 	ammo = ammunition
 	maxFuel = fuel * 100
 	currFuel = maxFuel
@@ -67,7 +67,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 	maxHealth = 400 * levelNum**2
 	currHealth = maxHealth
 
-	playerHealth = health*100
+	playerHealth = health
 	playerCurrent = playerHealth
 
 
@@ -116,8 +116,6 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 					quit = True
 
 			if keys[pygame.K_m]:
-				money = int(money)
-				money += 1000
 				return "Win", levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 
 			screen.blit(wintext,(300,200))
@@ -202,9 +200,6 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 			if keys[pygame.K_p]:
 				pause = True
 
-			if keys[pygame.K_z]:
-				playerCurrent -= 1
-
 			if x < 0 or x > 770 or y < 50 or y > 570 or playerCurrent < 1:
 				return 0, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money
 				#death screen here
@@ -262,9 +257,9 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 							currHealth -= rangeDmg
 							projectiles.pop(projectiles.index(projectile))
 				if projectile.safe == 0:
-					if projectile.x <= x + 5 and projectile.x >= x-5:
+					if projectile.x <= x and projectile.x >= x-20:
 						if projectile.y < y + 5 and projectile.y > y-5:
-							playerCurrent -= 2*levelNum**2
+							playerCurrent -= 10*(levelNum**2)
 							projectiles.pop(projectiles.index(projectile))
 
 			screen.blit(ammoText, (10,0))
