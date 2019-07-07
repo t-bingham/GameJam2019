@@ -129,12 +129,44 @@ def begin():
     return [playerName, playerTime]
 
 
+def playMusic(music):
+    global playingMusic
+    global startTime
+    global soundLength
+    #pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+    pygame.mixer.init()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play()
+    playingMusic = True
+    soundLength = pygame.mixer.Sound(music)
+    soundLength = soundLength.get_length()
+    startTime = time.time()
+
+
+class musicToPlay:
+    def __init__(self, ready=False, music=None):
+        self.music = music
+        self.ready = ready
+    
+    def add(self, music):
+        self.music = music
+        self.ready = True
+    
+    def play(self):
+        self.ready = False
+        playMusic(self.music)
+
+
 def close():
     pygame.quit()
     quit()
 
 
 def main():
+    global startTime
+    global soundLength
     loopExit = False
     startGame = False
     latestButtonData = [0, (0, 0)] # Last mouse button used and where it was used
@@ -142,6 +174,7 @@ def main():
     textItems = [] # Text to display for score sheet
     scores = [] # Player scores from the game
     scoreData = {} # Player names and scores from the game
+    nextMusic = musicToPlay()
 
     backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
 
@@ -155,8 +188,15 @@ def main():
     
     # Cutscene
     #playMovie("../Images/cutscene.mp4")
+    nextMusic.add("../Audio/Music/menu.wav")
 
     while not loopExit:
+        if nextMusic.ready:
+            nextMusic.play()
+        endTime = time.time()
+        if (endTime - startTime) > soundLength:
+            nextMusic.add("../Audio/Music/menu.mp3")
+
         # Enter actual game?
         if startGame == True:
             data = begin() # Start the game
