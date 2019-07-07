@@ -74,16 +74,26 @@ def createText(text, fontType, size, xPos, yPos):
 
 
 def playMusic(music):
-    pygame.mixer.music.stop()
+    global playingMusic
+    global startTime
+    global soundLength
+    #pygame.mixer.music.stop()
     pygame.mixer.quit()
     pygame.mixer.pre_init(16384, -16, 2, 1024*3)
     pygame.mixer.init()
     pygame.mixer.music.load(music)
     pygame.mixer.music.play()
-    #pygame.event.wait()
+    playingMusic = True
+    soundLength = pygame.mixer.Sound(music)
+    soundLength = soundLength.get_length()
+    startTime = time.time()
 
 
 def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
+    global playingMusic
+    global startTime
+    global soundLength
+
     clock = pygame.time.Clock()
     pygame.font.init()
 
@@ -147,23 +157,34 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
 
         for clickable in screenItems:
             if latestButtonData[0] == 1:
-                if (latestButtonData[1][0] >= clickable.xHitLow) and (latestButtonData[1][0] <= clickable.xHitHigh):
-                    if (latestButtonData[1][1] >= clickable.yHitHigh) and (latestButtonData[1][1] <= clickable.yHitLow):
-                        if (unclicked == True) and (clickable.isGray == False):
-                            unclicked = False
-                            getNext = True
-                            clickable.clicked()
-                            if clickable.name == "inter1":
-                                if correct == True:
-                                    money += interChange
-                                else:
-                                    health -= damageAmount
+                if not playingMusic:
+                    if (latestButtonData[1][0] >= clickable.xHitLow) and (latestButtonData[1][0] <= clickable.xHitHigh):
+                        if (latestButtonData[1][1] >= clickable.yHitHigh) and (latestButtonData[1][1] <= clickable.yHitLow):
+                            if (unclicked == True) and (clickable.isGray == False):
+                                unclicked = False
+                                getNext = True
+                                clickable.clicked()
+                                if clickable.name == "inter1":
+                                    if correct == True:
+                                        money += interChange
+                                        playMusic("../Audio/Effects/MissionRight.wav")
+                                    else:
+                                        health -= damageAmount
+                                        if random.randint(0, 1) == 0:
+                                            playMusic("../Audio/Effects/MissionWrong1.wav")
+                                        else:
+                                            playMusic("../Audio/Effects/MissionWrong2.wav")
                             
-                            elif clickable.name == "inter2":
-                                if correct == False:
-                                    money += interChange
-                                else:
-                                    health -= damageAmount
+                                elif clickable.name == "inter2":
+                                    if correct == False:
+                                        money += interChange
+                                        playMusic("../Audio/Effects/MissionRight.wav")
+                                    else:
+                                        health -= damageAmount
+                                        if random.randint(0, 1) == 0:
+                                            playMusic("../Audio/Effects/MissionWrong1.wav")
+                                        else:
+                                            playMusic("../Audio/Effects/MissionWrong2.wav")
             
             if clickable.image != None:
                 itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
@@ -178,15 +199,20 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
         textToBlit = createText(str(word[1]), 'Comic Sand MS', 30, 285, 100)
         itemsToDisplay.append(textToBlit)
 
-        if getNext:
-            if wordIndex >= (n * numberWords * 2 + numberWords * 2) - 2:
-                loopExit = True
-            else:
-                getNext = False
-                wordIndex += 2
-                word[0] = words[wordIndex]
-                word[1] = words[wordIndex + 1]
-                correct = wordPairs[wordIndex]
+        if not playingMusic:
+            if getNext:
+                if wordIndex >= (n * numberWords * 2 + numberWords * 2) - 2:
+                    loopExit = True
+                else:
+                    getNext = False
+                    wordIndex += 2
+                    word[0] = words[wordIndex]
+                    word[1] = words[wordIndex + 1]
+                    correct = wordPairs[wordIndex]
+        
+        stopTime = time.time()
+        if ((stopTime - startTime) > soundLength) and not pygame.mixer.get_busy():
+            playingMusic = False
 
         display.fill(black)
         newDisp = []
