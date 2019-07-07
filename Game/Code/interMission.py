@@ -125,7 +125,7 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     interChange = 100
     numberWords = 5
 
-    words = ["Interact", "Interject", "Interlude", "Interchange", "Intermezzos", "Internment", "Interabang", "Interannual", "Interiority", "Interjoin",
+    words = ["Interest", "Interject", "Interlude", "Interchange", "Intermezzos", "Internment", "Interabang", "Interannual", "Interiority", "Interjoin",
     "Interlining", "Interlarded", "Internality", "Interlayers", "Internecine", "Intertribal", "Intermingle", "Intersperse", "Intervene", "Interoffice",
     "Interplead", "Intergrade", "Interview", "Interstrand", "Intermixing", "Interlinear", "Internuncio", "Interplant", "Interracial", "Internship",
     "Internalise", "Intertill", "Interacting", "Interschool", "Interisland", "Interabang", "Internecine", "Interpose", "Interpret", "Intermingle",
