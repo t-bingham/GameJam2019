@@ -12,7 +12,6 @@ Bosses will be BIG
 Melee damage is BIG
 """
 
-hi = 1
 
 class Projectile(object):
 	def __init__(self,x,y,safe):
@@ -23,10 +22,7 @@ class Projectile(object):
 		self.safe=safe
 
 	def draw(self, screen):
-		if self.safe == 1:
-			hi = None
-			#pygame.draw.circle(screen, (0, 255, 0), (self.x, self.y), 2)
-		elif self.safe == 0:
+		if self.safe == 0:
 			pygame.draw.circle(screen, self.colour, (self.x, self.y), 3)
 
 
@@ -107,7 +103,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 		if win:
 			pygame.time.delay(50)
 			wintext = font.render('YOU WIN!', True, white)
-			wintext2 = font.render('Press m to continue', True, white)
+			wintext2 = font.render('Press m to cont', True, white)
 			keys = pygame.key.get_pressed()
 
 			for event in pygame.event.get():
