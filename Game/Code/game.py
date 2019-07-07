@@ -232,13 +232,17 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 			missileTimer += 1
 			spike=pygame.image.load("../Images/Sprites/main_sprite/spike/spike.png")
 			spike = pygame.transform.scale(spike, (64,40))
-			screen.fill(black)
+			boss = pygame.image.load("../Images/Sprites/QuitButton.png")
+			boss = pygame.transform.scale(boss, (176,240))
+			background = pygame.image.load("../Images/Backgrounds/game.png")
+			screen.blit(background, (0,0))
 
 			currSpriteDisplay = pygame.transform.scale(currSprite, (64,40))
 			pygame.draw.rect(screen, red, (0,0,800,50))
 			pygame.draw.rect(screen, green, (0,0,currHealth/maxHealth*800,50))
 			pygame.draw.rect(screen, red, (0,550,200,50))
 			pygame.draw.rect(screen, green, (0,550,playerCurrent/playerHealth*200,50))
+			screen.blit(boss, (680, 180))
 			pygame.draw.rect(screen, (100, 100, 100), (750,400,50,200))
 			pygame.draw.rect(screen, blue, (750,400,50,currFuel/maxFuel*200))
 			screen.blit(currSpriteDisplay, (x, y))
