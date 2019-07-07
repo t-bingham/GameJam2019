@@ -73,16 +73,20 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
+pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+pygame.mixer.init()
+def playBackground(music):
+    #pygame.mixer.quit()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play(-1)
+
+
 def playMusic(music):
     global playingMusic
     global startTime
     global soundLength
-    #pygame.mixer.music.stop()
-    pygame.mixer.quit()
-    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
-    pygame.mixer.init()
-    pygame.mixer.music.load(music)
-    pygame.mixer.music.play()
+    effect = pygame.mixer.Sound(music)
+    effect.play()
     playingMusic = True
     soundLength = pygame.mixer.Sound(music)
     soundLength = soundLength.get_length()
@@ -123,7 +127,7 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
 
     damageAmount = 50
     interChange = 100
-    numberWords = 5
+    numberWords = 3
 
     words = ["Interest", "Interject", "Interlude", "Interchange", "Intermezzos", "Internment", "Interabang", "Interannual", "Interiority", "Interjoin",
     "Interlining", "Interlarded", "Internality", "Interlayers", "Internecine", "Intertribal", "Intermingle", "Intersperse", "Intervene", "Interoffice",
@@ -150,9 +154,11 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('inter1', 5, 248, 382, 5, 248, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png'),
-        screenItem('inter2', 413, 248, 790, 413, 248, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png')
+        screenItem('inter1', 5, 243, 382, 5, 243, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png'),
+        screenItem('inter2', 413, 243, 800, 413, 243, 337, '../Images/Sprites/IntermissionButtonPressed.png', '../Images/Sprites/IntermissionButton.png')
         ]
+    
+    playBackground('../Audio/Music/intermission.wav')
 
     while not loopExit:
 
@@ -186,9 +192,11 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
                                 if clickable.name == "inter1":
                                     if correct == True:
                                         money += interChange
+                                        playMusic("../Audio/Effects/coin.wav")
                                         nextMusic.add("../Audio/Effects/MissionRight.wav")
                                     else:
                                         health -= damageAmount
+                                        playMusic("../Audio/Effects/damage.wav")
                                         if random.randint(0, 1) == 0:
                                             nextMusic.add("../Audio/Effects/MissionWrong1.wav")
                                         else:
@@ -197,9 +205,11 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
                                 elif clickable.name == "inter2":
                                     if correct == False:
                                         money += interChange
+                                        playMusic("../Audio/Effects/coin.wav")
                                         nextMusic.add("../Audio/Effects/MissionRight.wav")
                                     else:
                                         health -= damageAmount
+                                        playMusic("../Audio/Effects/damage.wav")
                                         if random.randint(0, 1) == 0:
                                             nextMusic.add("../Audio/Effects/MissionWrong1.wav")
                                         else:
@@ -208,9 +218,13 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
             if clickable.image != None:
                 itemsToDisplay.append((clickable.image, (clickable.xPos, clickable.yPos), 0))
         
-        textToBlit = createText(str(money), 'Comic Sand MS', 30, 400, 150)
+        textToBlit = createText(str(money), 'Comic Sand MS', 30, 262, 440)
         itemsToDisplay.append(textToBlit)
-        textToBlit = createText(str(health), 'Comic Sand MS', 30, 400, 175)
+        textToBlit = createText(str(health), 'Comic Sand MS', 30, 430, 440)
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(ammunition), 'Comic Sand MS', 30, 348, 440)
+        itemsToDisplay.append(textToBlit)
+        textToBlit = createText(str(fuel), 'Comic Sand MS', 30, 502, 440)
         itemsToDisplay.append(textToBlit)
 
         textToBlit = createText(str(word[0]), 'Comic Sand MS', 42, 107, 281)

@@ -72,19 +72,30 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
-def playMusic(music):
-    pygame.mixer.music.stop()
-    pygame.mixer.quit()
-    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
-    pygame.mixer.init()
+pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+pygame.mixer.init()
+def playBackground(music):
+    #pygame.mixer.quit()
     pygame.mixer.music.load(music)
-    pygame.mixer.music.play()
-    #pygame.event.wait()
+    pygame.mixer.music.play(-1)
+
+
+def playMusic(music):
+    global playingMusic
+    global startTime
+    global soundLength
+    effect = pygame.mixer.Sound(music)
+    effect.play()
+    playingMusic = True
+    soundLength = pygame.mixer.Sound(music)
+    soundLength = soundLength.get_length()
+    startTime = time.time()
 
 
 def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
     clock = pygame.time.Clock()
     pygame.font.init()
+    playBackground('../Audio/Music/shop.wav')
 
     playMusic('../Audio/Effects/WelcomeShop.wav')
 
