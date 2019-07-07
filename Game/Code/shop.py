@@ -88,8 +88,6 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
 
     playMusic('../Audio/Effects/WelcomeShop.wav')
 
-    fuel = fuel / 100
-
     healthCost = 100
     ammoCost = 100
     MdamageCost = 100
@@ -242,6 +240,6 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
         pygame.display.update()
         clock.tick(fps)
 
-    return (health + textItems[2], ammunition + textItems[3], Mdamage + textItems[4], Rdamage + textItems[5], 100 * (fuel + textItems[6]), textItems[1])
+    return (health + textItems[2] * 100, ammunition + textItems[3] * 10, Mdamage + textItems[4], Rdamage + textItems[5], fuel + textItems[6] * 100, textItems[1])
 
 

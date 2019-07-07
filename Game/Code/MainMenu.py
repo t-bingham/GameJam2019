@@ -111,7 +111,7 @@ def begin():
     ammunition = 40
     Mdamage = 1
     Rdamage = 1
-    fuel = 6
+    fuel = 600
     money = 1000
 
     while (levelNumber < 6) and (type(playerName) == str):
