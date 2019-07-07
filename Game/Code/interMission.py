@@ -105,8 +105,8 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
         else:
             playMusic("../Audio/Effects/Interlude.wav")
 
-    damageAmount = 1
-    interChange = 1
+    damageAmount = 50
+    interChange = 100
     numberWords = 5
 
     words = ["Interact", "Interject", "Interlude", "Interchange", "Intermezzos", "Internment", "Interabang", "Interannual", "Interiority", "Interjoin",

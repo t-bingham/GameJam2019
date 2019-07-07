@@ -1,9 +1,9 @@
 import pygame
 import random
-import sys
 import string
 import time
 import namer
+import sys
 
 """
 TODO

@@ -1,7 +1,7 @@
 import pygame
 import random
 import time
-
+import moviepy.editor as mp
 import game
 
 
@@ -85,47 +85,23 @@ def createText(text, fontType, size, xPos, yPos):
     return (textsurface, (xPos, yPos), 0)
 
 
-def playMovie(clip, music=None):
+def playMovie(movie, music=None):
     pygame.mouse.set_visible(False)
 
     pygame.mixer.quit()
-    movie = pygame.movie.Movie(clip)
-    movie_screen = pygame.Surface(movie.get_size()).convert()
-    #movie_screen = pygame.transform.scale(movie_screen, (displayWidth, displayHeight))
-    movie.set_display(movie_screen)
-    movie.play()
     if music != None:
         pygame.mixer.init()
         pygame.mixer.music.load(music)
         pygame.mixer.music.play()
         #pygame.event.wait()
-
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    movie.stop()
-                    pygame.mixer.music.stop()
-                    running = False
-        
-        if not movie.get_busy():
-            movie.stop()
-            pygame.mixer.music.stop()
-            running = False
-        
-        display.fill(black)
-        display.blit(movie_screen, (displayWidth / 2 - movie.get_size()[0] / 2, displayHeight / 2 - movie.get_size()[1] / 2))
-        pygame.display.update()
-        clock.tick(fps)
+    
+    clip = mp.VideoFileClip(movie)
+    clip.preview()
 
     pygame.mouse.set_visible(True)
 
 
 def begin():
-    # Cutscene
-    playMovie("../Images/Intro.mpg", "../Audio/Music/intro.mp3")
-
     start = time.time()
     levelNumber = 1
 
@@ -176,6 +152,9 @@ def main():
         screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.png'),
         screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.png', '../Images/Sprites/QuitButton.png')
         ]
+    
+    # Cutscene
+    #playMovie("../Images/cutscene.mp4")
 
     while not loopExit:
         # Enter actual game?
