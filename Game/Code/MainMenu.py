@@ -119,27 +119,31 @@ def begin():
         playerName, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money = game.game(display, levelNumber, health, ammunition, Mdamage, Rdamage, fuel, money) # Start the game
         levelNumber += 1
 
-    # Reopen the window
     end = time.time()
     playerTime = int(end - start)
 
     if type(playerName) == str:
+        nextMusic.add("../Audio/Effects/Win.wav")
         if playerName.strip() == '':
             playerName = '*'
 
     return [playerName, playerTime]
 
 
+pygame.mixer.pre_init(16384, -16, 2, 1024*3)
+pygame.mixer.init()
+def playBackground(music):
+    #pygame.mixer.quit()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play(-1)
+
+
 def playMusic(music):
     global playingMusic
     global startTime
     global soundLength
-    #pygame.mixer.music.stop()
-    pygame.mixer.quit()
-    pygame.mixer.pre_init(16384, -16, 2, 1024*3)
-    pygame.mixer.init()
-    pygame.mixer.music.load(music)
-    pygame.mixer.music.play()
+    effect = pygame.mixer.Sound(music)
+    effect.play()
     playingMusic = True
     soundLength = pygame.mixer.Sound(music)
     soundLength = soundLength.get_length()
@@ -189,17 +193,15 @@ def main():
     
     # Cutscene
     #playMovie("../Images/cutscene.mp4")
-    nextMusic.add("../Audio/Music/menu.wav")
+    playBackground("../Audio/Music/menu.wav")
 
     yplace = [411, 444, 475, 504, 537]
     instructions = ["Pause Game = P", "Move Left = Left Arrow Key", "Move Right = Right Arrow Key", "Use jetpack = Up Arrow Key", "Switch Weapons = tab", "Use Weapon = Q"]
 
     while not loopExit:
+
         if nextMusic.ready:
             nextMusic.play()
-        endTime = time.time()
-        if (endTime - startTime) > soundLength:
-            nextMusic.add("../Audio/Music/menu.mp3")
 
         # Enter actual game?
         if startGame == True:
