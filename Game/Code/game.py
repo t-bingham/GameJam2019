@@ -257,7 +257,7 @@ def game(screen, levelNum, health, ammunition, Mdamage, Rdamage, fuel, money):
 							currHealth -= rangeDmg
 							projectiles.pop(projectiles.index(projectile))
 				if projectile.safe == 0:
-					if projectile.x <= x and projectile.x >= x-20:
+					if projectile.x <= x+20 and projectile.x >= x-20:
 						if projectile.y < y + 5 and projectile.y > y-5:
 							playerCurrent -= 10*(levelNum**2)
 							projectiles.pop(projectiles.index(projectile))
