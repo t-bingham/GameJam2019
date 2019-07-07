@@ -176,19 +176,21 @@ def main():
     scoreData = {} # Player names and scores from the game
     nextMusic = musicToPlay()
 
-    backgroundImage = createBackground('../Images/Backgrounds/MainMenu.png') # Load and scale background
+    backgroundImage = createBackground('../Images/Backgrounds/Menu.png') # Load and scale background
 
     itemsToDisplay.append((backgroundImage, (0, 0), 1)) # Add background to queue
 
     # Clickable items on screen and their locations
     screenItems = [
-        screenItem('Start', 285, 100, 315, 285, 100, 130, '../Images/Sprites/StartButtonClicked.png', '../Images/Sprites/StartButton.png'),
-        screenItem('Quit', 285, 200, 315, 285, 200, 230, '../Images/Sprites/QuitButtonClicked.png', '../Images/Sprites/QuitButton.png')
+        screenItem('Start', 316, 147, 559, 316, 147, 199, '../Images/Sprites/PushStart.png', '../Images/Sprites/Start.png'),
+        screenItem('Quit', 316, 219, 559, 316, 219, 271, '../Images/Sprites/PushQuit.png', '../Images/Sprites/Quit.png')
         ]
     
     # Cutscene
     #playMovie("../Images/cutscene.mp4")
     nextMusic.add("../Audio/Music/menu.wav")
+
+    yplace = [411, 444, 475, 504, 537]
 
     while not loopExit:
         if nextMusic.ready:
@@ -233,7 +235,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 latestButtonData[0] = event.button
                 latestButtonData[1] = event.pos
-                #print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
+                print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
 
         for i in range(0, 5):
             if len(scores) <= i:
@@ -250,10 +252,10 @@ def main():
             if len(playerName) > 5:
                 playerName = playerName[:5]
 
-            textToBlit = createText(playerName, 'Comic Sand MS', 30, 400, 150 + i * 25)
+            textToBlit = createText(playerName, 'Comic Sand MS', 30, 358, yPlace[i])
             itemsToDisplay.append(textToBlit)
-            textToBlit = createText(str(score), 'Comic Sand MS', 30, 500, 150 + i * 25)
-            itemsToDisplay.append(textToBlit)
+            #textToBlit = createText(str(score), 'Comic Sand MS', 30, 500, 150 + i * 25)
+            #itemsToDisplay.append(textToBlit)
 
         for clickable in screenItems:
             if latestButtonData[0] == 1:

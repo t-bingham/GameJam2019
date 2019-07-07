@@ -140,6 +140,7 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
     True, False, True, False, False, True, False, True
     ] # Is the word correct?
     word = [words[n], words[n+1]]
+    correct = wordPairs[0]
 
     wordIndex = n * numberWords * 2 - 2
     loopExit = False
