@@ -102,6 +102,7 @@ def playMovie(movie, music=None):
 
 
 def begin():
+    pygame.mixer.music.stop()
     start = time.time()
     levelNumber = 1
 
@@ -191,6 +192,7 @@ def main():
     nextMusic.add("../Audio/Music/menu.wav")
 
     yplace = [411, 444, 475, 504, 537]
+    instructions = ["Pause Game = P", "Move Left = Left Arrow Key", "Move Right = Right Arrow Key", "Use jetpack = Up Arrow Key", "Switch Weapons = tab", "Use Weapon = Q"]
 
     while not loopExit:
         if nextMusic.ready:
@@ -237,6 +239,10 @@ def main():
                 latestButtonData[1] = event.pos
                 print("button %3d pressed in the position (%3d, %3d)" %(latestButtonData[0], latestButtonData[1][0], latestButtonData[1][1]))
 
+        for ins in range(0, len(instructions)):
+            textToBlit = createText(instructions[ins], 'Comic Sand MS', 30, 10, 460 + ins * 22)
+            itemsToDisplay.append(textToBlit)
+
         for i in range(0, 5):
             if len(scores) <= i:
                 break
@@ -251,6 +257,7 @@ def main():
                 playerName = playerName.strip('-')
             if len(playerName) > 5:
                 playerName = playerName[:5]
+            
 
             textToBlit = createText(playerName, 'Comic Sand MS', 30, 358, yPlace[i])
             itemsToDisplay.append(textToBlit)

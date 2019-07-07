@@ -251,6 +251,7 @@ def shop(display, health, ammunition, Mdamage, Rdamage, fuel, money):
         pygame.display.update()
         clock.tick(fps)
 
+    pygame.mixer.music.stop()
     return (health + textItems[2] * 100, ammunition + textItems[3] * 10, Mdamage + textItems[4], Rdamage + textItems[5], fuel + textItems[6] * 100, textItems[1])
 
 

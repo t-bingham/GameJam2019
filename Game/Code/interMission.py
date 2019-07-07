@@ -260,6 +260,7 @@ def interMission(display, health, ammunition, Mdamage, Rdamage, fuel, money, n):
         pygame.display.update()
         clock.tick(fps)
 
+    pygame.mixer.music.stop()
     health, ammunition, Mdamage, Rdamage, fuel, money = shop.shop(display, health, ammunition, Mdamage, Rdamage, fuel, money)
     return (health, ammunition, Mdamage, Rdamage, fuel, money)
 
