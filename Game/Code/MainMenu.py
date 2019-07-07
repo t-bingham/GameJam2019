@@ -194,6 +194,7 @@ def main():
     # Cutscene
     #playMovie("../Images/cutscene.mp4")
     playBackground("../Audio/Music/menu.wav")
+    nextMusic = musicToPlay()
 
     yplace = [411, 444, 475, 504, 537]
     instructions = ["Pause Game = P", "Move Left = Left Arrow Key", "Move Right = Right Arrow Key", "Use jetpack = Up Arrow Key", "Switch Weapons = tab", "Use Weapon = Q"]
